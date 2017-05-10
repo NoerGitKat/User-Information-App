@@ -1,0 +1,38 @@
+{
+	"Users": [{
+		"firstname": "doge",
+		"lastname": "wow",
+		"email": "sowow@do.ge",
+		"age": "9000"
+	},
+	{
+		"firstname": "Mister",
+		"lastname": "Cool",
+		"email": "cool@cool.cool",
+		"age": "34"
+	},
+	{
+		"name": "Mimi",
+		"lastname": "Duck",
+		"email": "mimi@quack.com",
+		"age": "1"
+	}
+	{
+		"name": "Pikachu",
+		"lastname": "Pika",
+		"email": "Pika20@pokemon.pi",
+		"age": "20"
+	}
+	{
+		"name": "Dinosaur",
+		"lastname": "Dead",
+		"email": "rawr@beforetheinternet.com",
+		"age": "10000000000"
+	}
+	{
+		"name": "Ghost",
+		"lastname": "Boo",
+		"email": "ihatepacman@pacman.com",
+		"age": "0"
+	}
+]}
