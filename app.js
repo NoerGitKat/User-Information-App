@@ -1,11 +1,15 @@
 const express = require('express');
 const app = express();
 
-// respond with 'This is working!' when a GET request is made
-app.get('/', (request, response) => {
-	response.send('This is working!');
-})
+app.set('views', 'public');
+app.set('view engine', 'pug');
 
-app.post('/path/to/file', {param1: 'value1'}, function(data, textStatus, xhr) {
-	/*optional stuff to do after success */
+/*app.use ('/', express.static('public'));*/
+
+app.get('/', (request, response) => {
+	response.render('index');
+});
+
+const listener = app.listen(3000, () => {
+	console.log('The server has started at port:', listener.address().port)
 });
