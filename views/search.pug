@@ -3,15 +3,9 @@ html
 		title Search Form
 	body
 		h1 Search Form
-		form(method='POST', action='/users')
-			input(type='hidden', name='__method', value='PUT')
-			p First name: 
+		form(method='POST', action='/search')
+			input(type='hidden', name='__method', value='POST')
+			p Search name: 
 				input(type='text', name='name')
-			p Last name: 
-				input(type='text', name='name')
-			p Email: 
-				input(type='email', name='email')
-			p Age: 
-				input(type='number', name='age')
 			p
-				input(type='submit', value='Submit')
+				input(type='submit', value='Search')

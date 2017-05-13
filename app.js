@@ -1,6 +1,8 @@
 const app = require('express')();
 const fs = require('fs');
-const bodyparser = require('body-parser');
+const bodyParser = require('body-parser')();
+
+app.use('/', bodyParser);
 
 app.set('views', 'views');
 app.set('view engine', 'pug');
@@ -20,11 +22,11 @@ app.get('/', (request, response) => {
 
 app.get('/search', (request, response) => {
 	response.render('search');
-	response.send('Everything OK!');
 });
 
-app.post('/users', (request, response) => {
-	response.render('users');
+app.post('/search', (request, response) => {
+	console.log(request.body);
+	response.send('Succesfully received!');
 });
 
 app.get('/createuser', (request, response) => {
