@@ -25,15 +25,19 @@ app.get('/search', (request, response) => {
 });
 
 app.post('/search', (request, response) => {
-	console.log(request.body);
-	response.send('Succesfully received!');
+	console.log(request.body.name);
+	if (request.body.name === 'doge' || 'wow'){
+		response.send('User found!');	
+	} else {
+		response.send('Not a user.')
+	}
 });
 
 app.get('/createuser', (request, response) => {
 	response.render('createuser');
 });
 
-app.post('/adduser', (request, response) => {
+app.put('/adduser', (request, response) => {
 	response.render('adduser');
 });
 
