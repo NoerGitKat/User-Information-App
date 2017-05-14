@@ -34,11 +34,12 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 
 	app.post('/search', (request, response) => {
 		console.log(request.body.name);
-
-			if (request.body.name == parse.firstname || parse.lastname || parse.firstname + parse.lastname){
-				response.send('User found!');	
-			} else {
-				response.send('Not a user.')
+			for (var i = 0; i < parse.length; i++) {
+				if (request.body.name === parse[i].firstname || parse[i].lastname || parse[i].firstname + " " + parse[i].lastname){
+					response.send('User found!');	
+				} else {
+					response.send('Not a user.')
+				}
 			}
 		});
 
@@ -48,7 +49,7 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 		response.render('createaccount');
 	});
 
-//	ROUTE 5: convert user input into object and push into json file
+// ROUTE 5: convert user input into object and push into json file
 
 	app.post('/createaccount', (request, response) => {
 		console.log(request.body.firstname + " " + request.body.lastname + " " + request.body.email)
