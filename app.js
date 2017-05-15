@@ -14,13 +14,13 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 			console.log(`Beep boop, error occurred: ${err}`);
 			throw err;
 		}
-		var parse = JSON.parse(data);
+		var parse = JSON.parse(data);		//parsing the JSON file into an object to work with
 
 // ROUTE 1: show all users 
 
 	app.get('/', (request, response) => {
 			response.render('index', { 
-				users: parse
+				users: parse  				//assign all the user info to the pug variables
 			});
 		});
 
@@ -41,7 +41,7 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 				}
 			}
 			response.render('displayuser', {
-				doge: matchedUser
+				user: matchedUser
 			});
 		});
 
@@ -57,8 +57,8 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 		console.log(request.body.firstname + " " + request.body.lastname + " " + request.body.email);
 		var newUser = { firstname: request.body.firstname, lastname: request.body.lastname, email: request.body.email };
 		
-		parse.unshift(newUser);
-		var newjson = JSON.stringify(parse);
+		parse.unshift(newUser);			//added new user information to the parse object
+		var newjson = JSON.stringify(parse);	//making parse JSON ready
 
 		fs.writeFile('./users.json', newjson, 'utf-8', (err) => {
 			if (err) {
