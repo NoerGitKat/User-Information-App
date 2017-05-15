@@ -34,13 +34,15 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 
 	app.post('/search', (request, response) => {
 		console.log(request.body.name);
+		var matchedUser = { firstname: 'nonexistent', lastname: 'nonexistent', email: 'nonexistent'};		// default assignment
 			for (var i = 0; i < parse.length; i++) {
 				if (request.body.name === parse[i].firstname || request.body.name === parse[i].lastname || request.body.name === parse[i].firstname + " " + parse[i].lastname){
-					response.send('User found!');	
-				} else {
-					response.send('Not a user.')
+					matchedUser = parse[i]; 	//reassigned var to display user info according to index
 				}
 			}
+			response.render('displayuser', {
+				doge: matchedUser
+			});
 		});
 
 // ROUTE 4: created 3 forms for user input to create account
@@ -52,10 +54,10 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 // ROUTE 5: convert user input into object and push into json file
 
 	app.post('/createaccount', (request, response) => {
-		console.log(request.body.firstname + " " + request.body.lastname + " " + request.body.email)
-		var newuser = { firstname: request.body.firstname, lastname: request.body.lastname, email: request.body.email };
+		console.log(request.body.firstname + " " + request.body.lastname + " " + request.body.email);
+		var newUser = { firstname: request.body.firstname, lastname: request.body.lastname, email: request.body.email };
 		
-		parse.push(newuser);
+		parse.unshift(newUser);
 		var newjson = JSON.stringify(parse);
 
 		fs.writeFile('./users.json', newjson, 'utf-8', (err) => {
