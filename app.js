@@ -35,7 +35,7 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 	app.post('/search', (request, response) => {
 		console.log(request.body.name);
 			for (var i = 0; i < parse.length; i++) {
-				if (request.body.name === parse[i].firstname || parse[i].lastname || parse[i].firstname + " " + parse[i].lastname){
+				if (request.body.name === parse[i].firstname || request.body.name === parse[i].lastname || request.body.name === parse[i].firstname + " " + parse[i].lastname){
 					response.send('User found!');	
 				} else {
 					response.send('Not a user.')
