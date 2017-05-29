@@ -7,20 +7,18 @@ app.use('/', bodyParser);
 app.set('views', 'views');
 app.set('view engine', 'pug');
 
-// loading file that saves user information
+// ROUTE 1: show all users 
 
-fs.readFile('./users.json', 'utf-8', (err, data) => {
+	app.get('/', (request, response) => {
+		fs.readFile('./users.json', 'utf-8', (err, data) => {	// loading file that saves user information
 		if (err) {
 			console.log(`Beep boop, error occurred: ${err}`);
 			throw err;
 		}
 		var parse = JSON.parse(data);		//parsing the JSON file into an object to work with
-
-// ROUTE 1: show all users 
-
-	app.get('/', (request, response) => {
-			response.render('index', { 
-				users: parse  				//assign all the user info to the pug variables
+				response.render('index', { 
+					users: parse  				//assign all the user info to the pug variables
+				});
 			});
 		});
 
@@ -33,17 +31,32 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 // ROUTE 3: display matching users through comparison
 
 	app.post('/search', (request, response) => {
-		console.log(request.body.name);
-		var matchedUser = { firstname: 'nonexistent', lastname: 'nonexistent', email: 'nonexistent'};		// default assignment
-			for (var i = 0; i < parse.length; i++) {
-				if (request.body.name === parse[i].firstname || request.body.name === parse[i].lastname || request.body.name === parse[i].firstname + " " + parse[i].lastname){
-					matchedUser = parse[i]; 	//reassigned var to display user info according to index
+		fs.readFile('./users.json', 'utf-8', (err, data) => {	// loading file that saves user information
+			console.log(request.body.name);
+			var parse = JSON.parse(data);
+
+			// AJAX handling
+			/*var input = request.body.name;
+
+			var findUser = function(input, onComplete) {
+				fs.readFile('./users.json', 'utf-8', (err, data) => {	// loading file that saves user information
+				var parse = JSON.parse(data);
+				parse = parse.map(function(user){
+					return{}
 				}
-			}
-			response.render('displayuser', {
-				user: matchedUser
+			}*/
+
+			var matchedUser = { firstname: 'nonexistent', lastname: 'nonexistent', email: 'nonexistent'};		// default assignment
+				for (var i = 0; i < parse.length; i++) {
+					if (request.body.name === parse[i].firstname || request.body.name === parse[i].lastname || request.body.name === parse[i].firstname + " " + parse[i].lastname){
+						matchedUser = parse[i]; 	//reassigned var to display user info according to index
+					}
+				}
+				response.render('displayuser', {
+					user: matchedUser
+				});
 			});
-		});
+	});
 
 // ROUTE 4: created 3 forms for user input to create account
 
@@ -54,6 +67,14 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 // ROUTE 5: convert user input into object and push into json file
 
 	app.post('/createaccount', (request, response) => {
+		fs.readFile('./users.json', 'utf-8', (err, data) => {	// loading file that saves user information
+			if (err) {
+				console.log(`Beep boop, error occurred: ${err}`);
+				throw err;
+			}
+
+		var parse = JSON.parse(data);		//parsing the JSON file into an object to work with
+
 		console.log(request.body.firstname + " " + request.body.lastname + " " + request.body.email);
 		var newUser = { firstname: request.body.firstname, lastname: request.body.lastname, email: request.body.email };
 		
@@ -61,16 +82,17 @@ fs.readFile('./users.json', 'utf-8', (err, data) => {
 		var newjson = JSON.stringify(parse);	//making parse JSON ready
 
 		fs.writeFile('./users.json', newjson, 'utf-8', (err) => {
-			if (err) {
-				console.log(`Beep boop, error occurred: ${err}`);
-			throw err;
-			} else {
-				console.log('Database updated!');
-			}
+				if (err) {
+					console.log(`Beep boop, error occurred: ${err}`);
+				throw err;
+				} else {
+					console.log('Database updated!');
+				}
+			});
 		});
 		response.redirect('/');
 	});
-});
+
 
 const listener = app.listen(3000, () => {
 	console.log('The server has started at port:', listener.address().port)
