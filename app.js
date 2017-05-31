@@ -67,7 +67,7 @@ app.set('view engine', 'pug');
 		console.log(request.body.firstname + " " + request.body.lastname + " " + request.body.email);
 		var newUser = { firstname: request.body.firstname, lastname: request.body.lastname, email: request.body.email };
 		
-		parse.unshift(newUser);			//added new user information to the parse object
+		parse.push(newUser);			//added new user information to the parse object
 		var newjson = JSON.stringify(parse);	//making parse JSON ready
 
 		fs.writeFile('./users.json', newjson, 'utf-8', (err) => {
