@@ -1,8 +1,9 @@
 const app = require('express')();
 const fs = require('fs');
-const bodyParser = require('body-parser')();
+const bodyParser = require('body-parser');
 
-app.use('/', bodyParser);
+app.use('/', bodyParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('views', 'views');
 app.set('view engine', 'pug');
@@ -28,6 +29,35 @@ app.set('view engine', 'pug');
 		response.render('search');
 	});
 
+// Route 2.5: AJAX route
+	
+	app.post('/autocomplete', (request, response) => {
+		fs.readFile('./users.json', 'utf-8', (err, data) => {	// loading file that saves user information
+			var parse = JSON.parse(data);
+
+			parse = parse.map((user) => {
+				return {
+					firstname: user.firstname,
+					lastname: user.lastname
+				}
+			});
+
+			var typed = request.body.input
+
+			var allUsers = [];
+
+			for (var i = 0; i < parse.length; i++) {
+				user = parse[i];
+				if(user.firstname.startsWith(typed) || user.lastname.startsWith(typed)) {
+					allUsers.push(user);
+				}
+			}
+
+
+			response.send(allUsers);
+		});
+	});
+
 // ROUTE 3: display matching users through comparison
 
 	app.post('/search', (request, response) => {
@@ -35,18 +65,8 @@ app.set('view engine', 'pug');
 			console.log(request.body.name);
 			var parse = JSON.parse(data);
 
-			// AJAX handling
-			/*var input = request.body.name;
-
-			var findUser = function(input, onComplete) {
-				fs.readFile('./users.json', 'utf-8', (err, data) => {	// loading file that saves user information
-				var parse = JSON.parse(data);
-				parse = parse.map(function(user){
-					return{}
-				}
-			}*/
-
 			var matchedUser = { firstname: 'nonexistent', lastname: 'nonexistent', email: 'nonexistent'};		// default assignment
+				
 				for (var i = 0; i < parse.length; i++) {
 					if (request.body.name === parse[i].firstname || request.body.name === parse[i].lastname || request.body.name === parse[i].firstname + " " + parse[i].lastname){
 						matchedUser = parse[i]; 	//reassigned var to display user info according to index
@@ -56,7 +76,8 @@ app.set('view engine', 'pug');
 					user: matchedUser
 				});
 			});
-	});
+		});
+		
 
 // ROUTE 4: created 3 forms for user input to create account
 

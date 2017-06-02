@@ -1,10 +1,30 @@
 html
 	head
 		title Search User
+		script(src="https://code.jquery.com/jquery-3.2.1.min.js")
+		script.
+			$(document).ready(function() {
+				$('#searchbox').on('keyup', function() {
+					var typed = $(this).val();
+					if(typed.length == 0) {
+						$('#autocomplete').empty();
+					} else {
+						$.post('/autocomplete', { input: typed }, function(results) {
+							$('#autocomplete').empty();
+							if(results.length !== 0) {
+								$('#autocomplete').append(JSON.stringify(results));
+							}
+						});
+					};
+				});
+			});
+
 	body
 		h1 Search User
 		form(method='POST', action='/search')
 			p Search name: 
-				input(type='text', name='name')
+				input(type='text', name='name' id='searchbox')
 			p
 				input(type='submit', value='Search')
+			br
+			div#autocomplete
