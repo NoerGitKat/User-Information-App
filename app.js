@@ -42,7 +42,7 @@ app.set('view engine', 'pug');
 				}
 			});
 
-			var typed = request.body.input
+			var typed = request.body.input;
 
 			var allUsers = [];
 
@@ -62,7 +62,6 @@ app.set('view engine', 'pug');
 
 	app.post('/search', (request, response) => {
 		fs.readFile('./users.json', 'utf-8', (err, data) => {	// loading file that saves user information
-			console.log(request.body.name);
 			var parse = JSON.parse(data);
 
 			var matchedUser = { firstname: 'nonexistent', lastname: 'nonexistent', email: 'nonexistent'};		// default assignment
