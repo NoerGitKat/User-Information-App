@@ -17,7 +17,6 @@ html
 									li.html(results[i].firstname + " " + results[i].lastname + "<br />");
 									$('#autocomplete').append(li);
 								}
-							
 							}
 						});
 					};
@@ -28,11 +27,7 @@ html
 		h1 Search User
 		form(method='POST', action='/search')
 			p Search name: 
-				input(list="userList" type='text', name='name' id='searchbox' autocomplete='off')
-				datalist#userList
-					option(id="user1")
-					option(id="user1")
-					option(id="user1")
+				input(type='text', name='name' id='searchbox' autocomplete='off')
 			p
 				input(type='submit', value='Search')
 			br
