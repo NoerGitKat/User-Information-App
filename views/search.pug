@@ -4,21 +4,25 @@ html
 		script(src="https://code.jquery.com/jquery-3.2.1.min.js")
 		script.
 			$(document).ready(function() {
+				var myTimeout;
 				$('#searchbox').on('keyup', function() {
 					var typed = $(this).val();
 					if(typed.length == 0) {
 						$('#autocomplete').empty();
 					} else {
-						$.post('/autocomplete', { input: typed }, function(results) {
-							$('#autocomplete').empty();
-							if(results.length !== 0) {
-								for(var i = 0; i < results.length; i++) {
-									var li = $('<li/>');
-									li.html(results[i].firstname + " " + results[i].lastname + "<br />");
-									$('#autocomplete').append(li);
-								}
-							}
-						});
+						clearTimeout(myTimeout);
+							myTimeout = setTimeout(function() {
+								$.post('/autocomplete', { input: typed }, function(results) {
+									$('#autocomplete').empty();
+									if(results.length !== 0) {
+										for(var i = 0; i < results.length; i++) {
+											var li = $('<li/>');
+											li.html(results[i].firstname + " " + results[i].lastname + "<br />");
+											$('#autocomplete').append(li);
+										}
+									}
+								});
+							}, 300);		// delay timer to delay between every AJAX request after keypress
 					};
 				});
 			});
